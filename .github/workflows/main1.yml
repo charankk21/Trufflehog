@@ -1,19 +1,14 @@
-name: Trufflehog
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+name: A workflow for ensuring credentials are not in file
+on: push
 jobs:
   build:
+    name: Cred Checker
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 #to fetch all history of all branches 
-    - name: trufflehog-actions-scan
-      uses: edplato/trufflehog-actions-scan@master
-      #with:
-        #scanArguments: "--regex --entropy=False  --rules /regexes.json" 
+    steps:        
+       - uses: actions/checkout@master
+       - name: trufflehog-actions-scan
+         uses: edplato/trufflehog-actions-scan@master
+         with:
+           branch: ${{ github.head_ref }}
+           scanArguments: "--regex --max_depth=10  --rules /regexes.json"
+           #test runs
