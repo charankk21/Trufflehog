@@ -1,0 +1,19 @@
+name: Trufflehog
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #to fetch all history of all branches 
+    - name: trufflehog-actions-scan
+      uses: edplato/trufflehog-actions-scan@master
+      #with:
+        #scanArguments: "--regex --entropy=False  --rules /regexes.json" 
